@@ -51,8 +51,8 @@ export function AppSidebar() {
             </div>
             {!collapsed && (
               <div>
-                <h2 className="font-bold text-lg text-primary">CleanShop</h2>
-                <p className="text-xs text-muted-foreground">Produtos de Limpeza</p>
+                <h2 className="font-bold text-lg text-primary">Click&Brilhe</h2>
+                <p className="text-xs text-muted-foreground">Produtos de beleza</p>
               </div>
             )}
           </div>

@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Star, ShoppingCart, Minus, Plus, Heart, Share } from "lucide-react";
+import { Star, ShoppingCart, Minus, Plus, Heart, Share, ChevronLeft, ChevronRight } from "lucide-react";
 import { Product } from "@/lib/products";
 import { useCart } from "@/hooks/use-cart";
 import { formatCurrency } from "@/lib/utils";
@@ -22,8 +22,10 @@ interface ProductDetailModalProps {
 export function ProductDetailModal({ product, open, onOpenChange }: ProductDetailModalProps) {
   const { addItem } = useCart();
   const [quantity, setQuantity] = useState(1);
-
-  
+  const [currentIndex, setCurrentIndex] = useState(0); // índice da imagem atual
+  const totalImages = product.imagens.length;
+  const prevImage = () => setCurrentIndex((prev) => (prev - 1 + totalImages) % totalImages);
+  const nextImage = () => setCurrentIndex((prev) => (prev + 1) % totalImages);
 
   const handleAddToCart = () => {
     for (let i = 0; i < quantity; i++) {
@@ -31,7 +33,7 @@ export function ProductDetailModal({ product, open, onOpenChange }: ProductDetai
       id: product.id,
       nome: product.nome,
       preco: (product.preco-((product.promocao/100)*product.preco)),
-      imagens: product.imagens[0],
+      imagens: product.imagens,
       quantidadeMaxima: product.quantidadeEstoque,
     });
     }
@@ -59,15 +61,37 @@ export function ProductDetailModal({ product, open, onOpenChange }: ProductDetai
         </DialogHeader>
 
         <div className="grid md:grid-cols-2 gap-6">
-          {/* Product Image */}
+          {/* Coluna 1: Imagem + Miniaturas */}
           <div className="space-y-4">
-            <div className="relative">
+            <div className="relative w-full h-80 bg-muted rounded-lg overflow-hidden flex items-center justify-center">
               <img
-                src={product.imagens[0]}
-                alt={product.nome}
-                className="w-full rounded-lg object-cover aspect-square"
+                src={`http://localhost:3000/imagens/${product.imagens[currentIndex]}`}
+                alt={`${product.nome} - imagem ${currentIndex + 1}`}
+                className="w-full h-full object-cover transition-all duration-300"
               />
-              
+
+              {/* Botões de navegação */}
+              {totalImages > 1 && (
+                <>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="absolute left-2 top-1/2 -translate-y-1/2"
+                    onClick={(e) => { e.stopPropagation(); prevImage(); }}
+                  >
+                    <ChevronLeft className="w-6 h-6" />
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="absolute right-2 top-1/2 -translate-y-1/2"
+                    onClick={(e) => { e.stopPropagation(); nextImage(); }}
+                  >
+                    <ChevronRight className="w-6 h-6" />
+                  </Button>
+                </>
+              )}
+
               {/* Badges */}
               <div className="absolute top-4 left-4 flex flex-col gap-2">
                 {product.promocao > 0 && (
@@ -82,6 +106,23 @@ export function ProductDetailModal({ product, open, onOpenChange }: ProductDetai
                 )}
               </div>
             </div>
+
+            {/* Miniaturas */}
+            {totalImages > 1 && (
+              <div className="flex gap-2 mt-2 justify-center">
+                {product.imagens.map((img, index) => (
+                  <img
+                    key={index}
+                    src={`http://localhost:3000/imagens/${img}`}
+                    alt={`Miniatura ${index + 1}`}
+                    className={`w-16 h-16 object-cover rounded cursor-pointer border-2 ${
+                      index === currentIndex ? "border-primary" : "border-transparent"
+                    }`}
+                    onClick={() => setCurrentIndex(index)}
+                  />
+                ))}
+              </div>
+            )}
           </div>
 
           {/* Product Details */}

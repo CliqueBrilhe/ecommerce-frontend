@@ -9,7 +9,7 @@ export function HeroBanner() {
       <div className="absolute inset-0">
         <img 
           src={heroBanner}
-          alt="Produtos de limpeza premium"
+          alt="Produtos de beleza premium"
           className="w-full h-full object-cover opacity-30"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-primary/80 to-accent/60" />
@@ -18,7 +18,7 @@ export function HeroBanner() {
       <div className="relative px-8 py-12 text-center text-white">
         <div className="max-w-3xl mx-auto space-y-6">
           <Badge variant="secondary" className="bg-secondary/90 text-secondary-foreground">
-            ✨ Produtos Premium de Limpeza
+            ✨ Produtos Premium de beleza
           </Badge>
           
           <h1 className="text-4xl md:text-5xl font-bold leading-tight">
@@ -27,7 +27,7 @@ export function HeroBanner() {
           </h1>
           
           <p className="text-lg text-white/90 max-w-2xl mx-auto">
-            Descubra nossa linha completa de produtos de limpeza profissionais. 
+            Descubra nossa linha completa de produtos de beleza profissionais. 
             Qualidade garantida, preços imbatíveis e entrega rápida.
           </p>
           

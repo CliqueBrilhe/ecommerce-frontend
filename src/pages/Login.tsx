@@ -30,7 +30,7 @@ export default function Login() {
     if (success) {
       toast.success('Login realizado com sucesso!');
     } else {
-      toast.error('Credenciais inválidas. Tente: admin / cleanshop123');
+      toast.error('Credenciais inválidas. Tente: admin / Click&Brilhe123');
     }
     
     setIsLoading(false);
@@ -45,7 +45,7 @@ export default function Login() {
             <Sparkles className="w-8 h-8 text-primary-foreground" />
           </div>
           <div>
-            <h1 className="text-3xl font-bold text-foreground">CleanShop</h1>
+            <h1 className="text-3xl font-bold text-foreground">Click&Brilhe</h1>
             <p className="text-sm text-muted-foreground mt-2">
               Painel Administrativo
             </p>
@@ -105,7 +105,7 @@ export default function Login() {
               <p className="text-sm text-muted-foreground text-center">
                 <strong>Credenciais de demonstração:</strong><br />
                 Usuário: <code className="text-xs bg-background px-1 rounded">admin</code><br />
-                Senha: <code className="text-xs bg-background px-1 rounded">cleanshop123</code>
+                Senha: <code className="text-xs bg-background px-1 rounded">Click&Brilhe123</code>
               </p>
             </div>*/}
           </CardContent>

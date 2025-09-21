@@ -34,8 +34,8 @@ export function Header({ onSearch }: HeaderProps) {
               <Menu className="w-5 h-5 text-primary-foreground" />
             </div>
             <div>
-              <h1 className="font-bold text-lg text-primary">CleanShop</h1>
-              <p className="text-xs text-muted-foreground">Produtos de Limpeza</p>
+              <h1 className="font-bold text-lg text-primary">Click&Brilhe</h1>
+              <p className="text-xs text-muted-foreground">Produtos de beleza</p>
             </div>
           </div>
         </div>
@@ -56,7 +56,7 @@ export function Header({ onSearch }: HeaderProps) {
         <div className="flex items-center">
           <Button
               size="sm"
-              className="rounded-r-none"
+              className="rounded"
               onClick={() => GoToPedidosCliente()}>
             <p>Meus pedidos</p>
           </Button>

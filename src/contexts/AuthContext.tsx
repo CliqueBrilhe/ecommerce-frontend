@@ -24,14 +24,14 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
-    const token = localStorage.getItem('cleanshop_auth');
+    const token = localStorage.getItem('Click&Brilhe_auth');
     setIsAuthenticated(!!token);
   }, []);
 
   const login = (username: string, password: string): boolean => {
     // Credenciais simples para demonstração
-    if (username === 'admin' && password === 'cleanshop123') {
-      localStorage.setItem('cleanshop_auth', 'true');
+    if (username === 'admin' && password === 'click&Brilhe123') {
+      localStorage.setItem('Click&Brilhe_auth', 'true');
       setIsAuthenticated(true);
       return true;
     }
@@ -39,7 +39,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   };
 
   const logout = () => {
-    localStorage.removeItem('cleanshop_auth');
+    localStorage.removeItem('Click&Brilhe_auth');
     setIsAuthenticated(false);
   };
 

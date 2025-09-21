@@ -27,7 +27,7 @@ export default function AdminLayout() {
                 <SidebarTrigger className="flex-shrink-0" />
                 <div className="hidden sm:block min-w-0">
                   <h2 className="font-semibold text-foreground truncate">Painel Administrativo</h2>
-                  <p className="text-sm text-muted-foreground">CleanShop</p>
+                  <p className="text-sm text-muted-foreground">Click&Brilhe</p>
                 </div>
               </div>
               

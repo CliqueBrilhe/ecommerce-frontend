@@ -76,6 +76,7 @@ export default function Produtos() {
       nome: updatedProduct.nome,
       quantidadeEstoque: updatedProduct.quantidadeEstoque,
       preco: updatedProduct.preco,
+      imagens:updatedProduct.imagens,
       promocao: updatedProduct.promocao,
     });
     } catch (err) {
@@ -126,7 +127,7 @@ export default function Produtos() {
       <div className="flex flex-col gap-4">
         <div>
           <h1 className="text-2xl md:text-3xl font-bold text-foreground">Produtos</h1>
-          <p className="text-muted-foreground">Gerencie seu catálogo de produtos de limpeza</p>
+          <p className="text-muted-foreground">Gerencie seu catálogo de produtos de beleza</p>
         </div>
         
         <Button 
@@ -155,6 +156,11 @@ export default function Produtos() {
           return (
             <Card key={product.id} className="shadow-elevation hover:shadow-clean transition-all duration-200">
               <CardHeader className="pb-3">
+                <img
+                      src={`http://localhost:3000/imagens/${product.imagens[0]}`}
+                      alt={product.nome}
+                      className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105"
+                    />
                 <div className="flex justify-between items-start gap-2">
                   <div className="flex-1 min-w-0">
                     <CardTitle className="text-base md:text-lg font-semibold text-foreground line-clamp-2">
@@ -172,7 +178,9 @@ export default function Produtos() {
               
               <CardContent className="space-y-4">
                 <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
+                  
                   <div className="flex flex-col">
+                    
                     {product.promocao > 0 ? (
                       <div className="flex items-center gap-2 flex-wrap">
                         <span className="text-lg font-bold text-primary">
@@ -221,6 +229,11 @@ export default function Produtos() {
                     </DialogTrigger>
                     <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
                       <DialogHeader>
+                        <img
+                          src={`http://localhost:3000/imagens/${product.imagens[0]}`}
+                          alt={product.nome}
+                          className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105"
+                        />
                         <DialogTitle>{viewingProduct?.nome}</DialogTitle>
                       </DialogHeader>
                       {viewingProduct && (
@@ -311,6 +324,7 @@ export default function Produtos() {
               initialData={{
                 ...editingProduct,
                 imagens: [] // Reset images for editing
+                
               }}
               isEditing={true}
             />

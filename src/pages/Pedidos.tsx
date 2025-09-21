@@ -97,7 +97,7 @@ export default function Pedidos() {
       <div className="flex flex-col gap-4">
         <div>
           <h1 className="text-2xl md:text-3xl font-bold text-foreground">Pedidos</h1>
-          <p className="text-muted-foreground">Gerencie todos os pedidos do CleanShop</p>
+          <p className="text-muted-foreground">Gerencie todos os pedidos do Click&Brilhe</p>
         </div>
       </div>
 

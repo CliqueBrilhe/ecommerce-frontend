@@ -5,8 +5,10 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { X, Upload, ImageIcon } from "lucide-react"
+import api from "../lib/api";
 
 export interface ProductFormData {
+  id:string,
   nome: string
   codigo: string
   quantidadeEstoque: number
@@ -28,6 +30,7 @@ interface ProductFormProps {
 
 export function ProductForm({ onSubmit, onCancel, initialData, isEditing = false }: ProductFormProps) {
   const [formData, setFormData] = useState<ProductFormData>({
+    id:initialData?.id || "",
     nome: initialData?.nome || "",
     codigo: initialData?.codigo || "",
     quantidadeEstoque: initialData?.quantidadeEstoque || 0,
@@ -40,10 +43,52 @@ export function ProductForm({ onSubmit, onCancel, initialData, isEditing = false
     descricao: initialData?.descricao || "",
   })
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    onSubmit(formData)
-  }
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    try {
+      // Upload das novas imagens
+      const imageData = new FormData();
+      formData.imagens.forEach((file) => {
+        imageData.append("imagens", file);
+      });
+      const uploadRes = await api.post("/imagens/upload-multiplas", imageData);
+      const uploadedImages = uploadRes.data;
+
+      // Monta o payload final
+      const productPayload = {
+        nome: formData.nome,
+        codigo: formData.codigo,
+        quantidadeEstoque: formData.quantidadeEstoque,
+        preco: formData.preco,
+        promocao: formData.promocao,
+        largura: formData.largura,
+        altura: formData.altura,
+        profundidade: formData.profundidade,
+        descricao: formData.descricao,
+        imagens: uploadedImages.map((img) => img.filename),
+      };
+
+      if (isEditing && initialData?.id) {
+        // 🔹 Atualiza produto
+        const response = await api.put(`/produtos/${initialData.id}`, productPayload);
+        console.log("Produto atualizado:", response.data);
+        alert("Produto atualizado com sucesso!");
+      } else {
+        // 🔹 Cria produto
+        const response = await api.post("/produtos", productPayload);
+        console.log("Produto criado:", response.data);
+        alert("Produto criado com sucesso!");
+      }
+
+      onCancel(); // fecha o modal
+    } catch (err) {
+      console.error(err);
+      alert("Ocorreu um erro ao salvar o produto");
+    }
+  };
+
+
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || [])

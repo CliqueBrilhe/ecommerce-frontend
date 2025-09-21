@@ -41,7 +41,7 @@ export function AdminSidebar() {
                 <Package className="h-5 w-5 text-primary-foreground" />
               </div>
               <div>
-                <h2 className="font-bold text-foreground">CleanShop</h2>
+                <h2 className="font-bold text-foreground">Click&Brilhe</h2>
                 <p className="text-sm text-muted-foreground">Admin</p>
               </div>
             </div>
