@@ -30,7 +30,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   const login = (username: string, password: string): boolean => {
     // Credenciais simples para demonstração
-    if (username === 'admin' && password === 'click&Brilhe123') {
+    if (username === 'admin' && password === 'Click&Brilhe123') {
       localStorage.setItem('Click&Brilhe_auth', 'true');
       setIsAuthenticated(true);
       return true;
