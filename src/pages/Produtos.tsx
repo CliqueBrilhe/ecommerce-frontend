@@ -157,7 +157,7 @@ export default function Produtos() {
             <Card key={product.id} className="shadow-elevation hover:shadow-clean transition-all duration-200">
               <CardHeader className="pb-3">
                 <img
-                      src={`http://localhost:3000/imagens/${product.imagens[0]}`}
+                      src={`https://ecommercebackend-production-d712.up.railway.app/imagens/${product.imagens[0]}`}
                       alt={product.nome}
                       className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105"
                     />
@@ -230,7 +230,7 @@ export default function Produtos() {
                     <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
                       <DialogHeader>
                         <img
-                          src={`http://localhost:3000/imagens/${product.imagens[0]}`}
+                          src={`https://ecommercebackend-production-d712.up.railway.app/imagens/${product.imagens[0]}`}
                           alt={product.nome}
                           className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105"
                         />

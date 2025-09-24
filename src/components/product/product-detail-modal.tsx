@@ -65,7 +65,7 @@ export function ProductDetailModal({ product, open, onOpenChange }: ProductDetai
           <div className="space-y-4">
             <div className="relative w-full h-80 bg-muted rounded-lg overflow-hidden flex items-center justify-center">
               <img
-                src={`http://localhost:3000/imagens/${product.imagens[currentIndex]}`}
+                src={`https://ecommercebackend-production-d712.up.railway.app/imagens/${product.imagens[currentIndex]}`}
                 alt={`${product.nome} - imagem ${currentIndex + 1}`}
                 className="w-full h-full object-cover transition-all duration-300"
               />
@@ -113,7 +113,7 @@ export function ProductDetailModal({ product, open, onOpenChange }: ProductDetai
                 {product.imagens.map((img, index) => (
                   <img
                     key={index}
-                    src={`http://localhost:3000/imagens/${img}`}
+                    src={`https://ecommercebackend-production-d712.up.railway.app/imagens/${img}`}
                     alt={`Miniatura ${index + 1}`}
                     className={`w-16 h-16 object-cover rounded cursor-pointer border-2 ${
                       index === currentIndex ? "border-primary" : "border-transparent"
