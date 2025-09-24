@@ -36,6 +36,7 @@ interface Usuario {
 export function CheckoutForm({ items, totalPrice, onSuccess, onCancel }: CheckoutFormProps) {
   const [step, setStep] = useState<'customer' | 'shipping' | 'payment' | 'processing' | 'success'>('customer');
   const [cpf, setCpf] = useState('');
+  const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
   const [email2, setEmail2] = useState('');
   const [cep, setCep] = useState('');
@@ -255,11 +256,14 @@ export function CheckoutForm({ items, totalPrice, onSuccess, onCancel }: Checkou
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="p-3 bg-muted rounded-lg">
-              <p className="font-medium">{customerData.nome}</p>
+              <Input
+                id="nome"
+                value={nome}
+                onChange={(e) => setNome(formatCPF(e.target.value))}
+                placeholder="Digite seu nome completo"
+              />
               <p className="text-sm text-muted-foreground">CPF: {cpf}</p>
-              <Badge variant="outline" className="mt-1">
-                {customerData.situacao}
-              </Badge>
+              
             </div>
 
             <div>
