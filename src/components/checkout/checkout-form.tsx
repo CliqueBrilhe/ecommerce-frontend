@@ -135,42 +135,49 @@ export function CheckoutForm({ items, totalPrice, onSuccess, onCancel }: Checkou
       setLoading(false);
       return;
     }*/
+    console.log("aqui")
 
     CheckoutService.savePagarmeApiKey(pagarmeApiKey);
     setStep('processing');
     try {
-     const usuario = {
-      "nome": nome,
-      "cpf": cpf,
-      "cep": cep,
-      "dataNascimento": "1990-05-10",
-      "login": email,
-      "senha": "teste",
-      "tipoUsuario": "comum"
-     }
-      let res1 = await api.post("/usuarios", usuario)
-      console.log("usuario:" +res1)
-      
-      
-      for (const item of items) {     
+      console.log("aqui2")
+      const usuario = {
+        nome,
+        cpf,
+        cep,
+        dataNascimento: "1990-05-10",
+        login: email,
+        senha: "teste",
+        tipoUsuario: "comum"
+      };
+      console.log("aqui3")
+      // Criando o usuário e aguardando a resposta
+      const res1 = await api.post("/usuarios", usuario);
+      console.log("Usuário criado:", res1.data);
+      console.log("aqui3")
+      // Criando pedidos sequencialmente
+      for (const item of items) {
+        console.log("aqui4")
         const pedido = {
-          "produtoId": item.id,
-          "usuarioId": res1.data.id,
-          "quantidade":item.quantidade,
-          "valorFrete": freightData.value
+          produtoId: item.id,
+          usuarioId: res1.data.id,
+          quantidade: item.quantidade,
+          valorFrete: freightData.value
         };
-        const res = api.post("/pedidos", pedido).then(res =>{
-          console.log(`Pedido ${res.data} criado com sucesso!`)
-          const resEmail = api.post("/email/send", {
-            "to": email,
-            "subject": "Confirmação de pedido",
-            "text": "Seu pedido foi confirmado! Consulte o status de seus pedidos em 'Meus pedidos'. Atenciosamente, Equipe Click&Brilhe"
-          })
+
+        const res = await api.post("/pedidos", pedido);
+        console.log(`Pedido ${res.data.id} criado com sucesso!`);
+
+        await api.post("/email/send", {
+          to: email,
+          subject: "Confirmação de pedido",
+          text: "Seu pedido foi confirmado! Consulte o status de seus pedidos em 'Meus pedidos'. Atenciosamente, Equipe Click&Brilhe"
         });
       }
-    }catch(e){
-      console.error(e)
+    } catch (e) {
+      console.error(e);
     }
+
     setLoading(false);
   };
 
