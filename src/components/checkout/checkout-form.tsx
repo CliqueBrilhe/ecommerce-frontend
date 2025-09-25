@@ -127,21 +127,36 @@ export function CheckoutForm({ items, totalPrice, onSuccess, onCancel }: Checkou
   };
 
   const handlePayment = async () => {
-    console.log("ne possivel")
+    console.log("Função handlePayment chamada");
     setLoading(true);
     setError('');
 
-    /*if (!pagarmeApiKey) {
-      setError('Configure sua chave da API Pagar.me primeiro');
+    // Checagem de pré-condições
+    if (!freightData) {
+      console.error("Erro: freightData está nulo");
+      setError("Erro interno: dados de frete não disponíveis.");
       setLoading(false);
       return;
-    }*/
-    console.log("aqui")
-    /*
-    CheckoutService.savePagarmeApiKey(pagarmeApiKey);*/
+    }
+
+    if (!items || items.length === 0) {
+      console.error("Erro: não há itens para pedido");
+      setError("Não há itens no carrinho.");
+      setLoading(false);
+      return;
+    }
+
+    if (!email) {
+      console.error("Erro: e-mail do cliente não definido");
+      setError("E-mail do cliente não definido.");
+      setLoading(false);
+      return;
+    }
+
     setStep('processing');
+
     try {
-      console.log("aqui2")
+      console.log("Criando usuário...");
       const usuario = {
         nome,
         cpf,
@@ -151,36 +166,51 @@ export function CheckoutForm({ items, totalPrice, onSuccess, onCancel }: Checkou
         senha: "teste",
         tipoUsuario: "comum"
       };
-      console.log("aqui3")
-      // Criando o usuário e aguardando a resposta
+
       const res1 = await api.post("/usuarios", usuario);
       console.log("Usuário criado:", res1.data);
-      console.log("aqui3")
-      // Criando pedidos sequencialmente
+
+      const usuarioId = res1.data.id;
+      if (!usuarioId) {
+        throw new Error("ID do usuário não retornado pela API");
+      }
+
+      console.log("Criando pedidos...");
       for (const item of items) {
-        console.log("aqui4")
         const pedido = {
           produtoId: item.id,
-          usuarioId: res1.data.id,
+          usuarioId,
           quantidade: item.quantidade,
           valorFrete: freightData.value
         };
 
         const res = await api.post("/pedidos", pedido);
-        console.log(`Pedido ${res.data.id} criado com sucesso!`);
+        console.log(`Pedido criado com sucesso: ${res.data.id}`);
 
-        await api.post("/email/send", {
-          to: email,
-          subject: "Confirmação de pedido",
-          text: "Seu pedido foi confirmado! Consulte o status de seus pedidos em 'Meus pedidos'. Atenciosamente, Equipe Click&Brilhe"
-        });
+        // Envio de e-mail
+        try {
+          await api.post("/email/send", {
+            to: email,
+            subject: "Confirmação de pedido",
+            text: "Seu pedido foi confirmado! Consulte o status de seus pedidos em 'Meus pedidos'."
+          });
+          console.log(`E-mail enviado para ${email}`);
+        } catch (emailErr) {
+          console.error("Erro ao enviar e-mail:", emailErr);
+        }
       }
-    } catch (e) {
-      console.error(e);
-    }
 
-    setLoading(false);
+      console.log("Todos os pedidos criados com sucesso!");
+      setStep('success');
+      onSuccess(); // callback do componente
+    } catch (err) {
+      console.error("Erro capturado no checkout:", err);
+      setError("Erro ao processar pedido. Tente novamente.");
+    } finally {
+      setLoading(false);
+    }
   };
+
 
   const finalTotal = totalPrice + (freightData?.value || 0);
 
