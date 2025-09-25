@@ -158,21 +158,21 @@ export function CheckoutForm({ items, totalPrice, onSuccess, onCancel }: Checkou
     try {
       console.log("Criando usuário...");
       const usuario = {
-        nome,
-        cpf,
-        cep,
-        dataNascimento: "1990-05-10",
-        login: email,
-        senha: "teste",
-        tipoUsuario: "comum"
-      };
-      let res1
-      try{
-        res1 = await api.get(`/usuarios${usuario.cpf}`);
-        console.log("Usuário:", res1.data);
-      }catch(err){
-        res1= await api.post("/usuarios", usuario);
-      }
+      "nome": customerData.nome,
+      "cpf": customerData.cpf,
+      "cep": cep,
+      "dataNascimento": "1990-05-10",
+      "login": email,
+      "senha": "teste",
+      "tipoUsuario": "comum"
+    }
+    let res1
+    try{
+      res1 = await api.get("/usuarios/"+usuario.cpf)
+    }
+    catch(err){
+      res1 = await api.post("/usuarios", usuario)
+    }
       
 
       const usuarioId = res1.data.id;
