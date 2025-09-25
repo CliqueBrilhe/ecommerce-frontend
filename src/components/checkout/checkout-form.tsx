@@ -137,8 +137,8 @@ export function CheckoutForm({ items, totalPrice, onSuccess, onCancel }: Checkou
       return;
     }*/
     console.log("aqui")
-
-    CheckoutService.savePagarmeApiKey(pagarmeApiKey);
+    /*
+    CheckoutService.savePagarmeApiKey(pagarmeApiKey);*/
     setStep('processing');
     try {
       console.log("aqui2")
