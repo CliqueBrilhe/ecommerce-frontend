@@ -168,10 +168,10 @@ export function CheckoutForm({ items, totalPrice, onSuccess, onCancel }: Checkou
       };
       let res1
       try{
-         res1= await api.post("/usuarios", usuario);
-        console.log("Usuário criado:", res1.data);
+        res1 = await api.get(`/usuarios${usuario.cpf}`);
+        console.log("Usuário:", res1.data);
       }catch(err){
-        res1 = await api.get(`/usuarios:${usuario.cpf}`);
+        res1= await api.post("/usuarios", usuario);
       }
       
 
