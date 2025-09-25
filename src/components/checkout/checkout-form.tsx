@@ -149,12 +149,11 @@ export function CheckoutForm({ items, totalPrice, onSuccess, onCancel }: Checkou
       "tipoUsuario": "comum"
     }
     let res1
-    try{
-      res1 = await api.post("/usuarios", usuario).then(e=>console.log(res1))
-    }
-    catch(err){
-      console.log("usuario encontrado")
-    }
+    
+    res1 = await api.post("/usuarios", usuario).then(e=>console.log(res1))
+    
+    console.log("usuario:" +res1)
+    
     
     await items.map((item)=> {       
       const pedido = {
