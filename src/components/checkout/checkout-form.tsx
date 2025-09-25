@@ -456,7 +456,7 @@ export function CheckoutForm({ items, totalPrice, onSuccess, onCancel }: Checkou
                 <Button onClick={() => setStep('shipping')} variant="outline" className="flex-1">
                   Voltar
                 </Button>
-                <Button onClick={handlePayment} disabled={loading || !pagarmeApiKey} className="flex-1">
+                <Button onClick={() => handlePayment()} disabled={loading || !pagarmeApiKey} className="flex-1">
                   {loading && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
                   Pagar {formatCurrency(finalTotal)}
                 </Button>
