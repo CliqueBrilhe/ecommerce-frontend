@@ -150,7 +150,7 @@ export function CheckoutForm({ items, totalPrice, onSuccess, onCancel }: Checkou
     }
     let res1
     try{
-      res1 = await api.post("/usuarios", usuario)
+      res1 = await api.post("/usuarios", usuario).then(e=>console.log(res1))
     }
     catch(err){
       console.log("usuario encontrado")
