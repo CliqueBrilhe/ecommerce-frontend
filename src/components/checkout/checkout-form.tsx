@@ -127,6 +127,7 @@ export function CheckoutForm({ items, totalPrice, onSuccess, onCancel }: Checkou
   };
 
   const handlePayment = async () => {
+    console.log("ne possivel")
     setLoading(true);
     setError('');
 
