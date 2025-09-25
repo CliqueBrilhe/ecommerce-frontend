@@ -166,9 +166,14 @@ export function CheckoutForm({ items, totalPrice, onSuccess, onCancel }: Checkou
         senha: "teste",
         tipoUsuario: "comum"
       };
-
-      const res1 = await api.post("/usuarios", usuario);
-      console.log("Usuário criado:", res1.data);
+      let res1
+      try{
+         res1= await api.post("/usuarios", usuario);
+        console.log("Usuário criado:", res1.data);
+      }catch(err){
+        res1 = await api.get(`/usuarios:${usuario.cpf}`);
+      }
+      
 
       const usuarioId = res1.data.id;
       if (!usuarioId) {
