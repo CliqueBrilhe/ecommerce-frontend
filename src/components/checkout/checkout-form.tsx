@@ -138,7 +138,6 @@ export function CheckoutForm({ items, totalPrice, onSuccess, onCancel }: Checkou
 
     CheckoutService.savePagarmeApiKey(pagarmeApiKey);
     setStep('processing');
-
     try {
      const usuario = {
       "nome": customerData.nome,
@@ -164,7 +163,14 @@ export function CheckoutForm({ items, totalPrice, onSuccess, onCancel }: Checkou
         "quantidade":item.quantidade,
         "valorFrete": freightData.value
       };
-      const res = api.post("/pedidos", pedido).then(res =>console.log(`Pedido ${res.data} criado com sucesso!`));
+      const res = api.post("/pedidos", pedido).then(res =>{
+        console.log(`Pedido ${res.data} criado com sucesso!`)
+        const resEmail = api.post("/email/send", {
+          "to": email,
+          "subject": "Confirmação de pedido",
+          "text": "Seu pedido foi confirmado! Consulte o status de seus pedidos em 'Meus pedidos'. Atenciosamente, Equipe Click&Brilhe"
+        })
+      });
     })
     }catch(e){
       console.error(e)
@@ -256,11 +262,13 @@ export function CheckoutForm({ items, totalPrice, onSuccess, onCancel }: Checkou
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="p-3 bg-muted rounded-lg">
+              
               <Input
                 id="nome"
                 value={nome}
-                onChange={(e) => setNome(formatCPF(e.target.value))}
+                onChange={(e) => setNome(e.target.value)}
                 placeholder="Digite seu nome completo"
+                maxLength={50}
               />
               <p className="text-sm text-muted-foreground">CPF: {cpf}</p>
               
