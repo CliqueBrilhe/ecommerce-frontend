@@ -174,7 +174,7 @@ export function CheckoutForm({ items, totalPrice, onSuccess, onCancel }: Checkou
       if (!usuarioId) {
         throw new Error("ID do usuário não retornado pela API");
       }
-      /*
+      
       console.log("Criando pedidos...");
       for (const item of items) {
         const pedido = {
@@ -202,7 +202,7 @@ export function CheckoutForm({ items, totalPrice, onSuccess, onCancel }: Checkou
 
       console.log("Todos os pedidos criados com sucesso!");
       setStep('success');
-      onSuccess(); // callback do componente*/
+      onSuccess(); // callback do componente
     } catch (err) {
       console.error("Erro capturado no checkout:", err);
       setError("Erro ao processar pedido. Tente novamente.");
