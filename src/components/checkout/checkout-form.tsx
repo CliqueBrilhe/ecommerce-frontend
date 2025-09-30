@@ -194,10 +194,11 @@ export function CheckoutForm({ items, totalPrice, onSuccess, onCancel }: Checkou
 
         // Envio de e-mail
         try {
-          await api.post("/email/send", {
+          await api.post("/email/simple", {
             to: email,
             subject: "Confirmação de pedido",
-            text: "Seu pedido foi confirmado! Consulte o status de seus pedidos em 'Meus pedidos'."
+            text: "Seu pedido foi confirmado! Consulte o status de seus pedidos em 'Meus pedidos'.",
+            html:"<h1>Confirmação de pedido</h1><p>Seu pedido foi confirmado! Consulte o status de seus pedidos em 'Meus pedidos'.</p>"
           });
           console.log(`E-mail enviado para ${email}`);
         } catch (emailErr) {
