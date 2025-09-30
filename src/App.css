@@ -17,6 +17,10 @@
 .logo.react:hover {
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
+/* index.css */
+body {
+  font-family: 'Roboto', sans-serif;
+}
 
 @keyframes logo-spin {
   from {
