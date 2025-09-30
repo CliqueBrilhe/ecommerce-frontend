@@ -12,6 +12,7 @@ export interface Product {
   imagens: string[]
   descricao: string
   status: "disponivel" | "esgotado" | "descontinuado"
+  categoria: string
 }
 async function getProducts(): Promise<Product[]> {
   try {

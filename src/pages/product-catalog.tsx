@@ -21,7 +21,10 @@ export function ProductCatalog({ selectedCategory = "all", searchQuery = "" }: P
 
     // Filter by category
     if (selectedCategory !== "all") {
-      filtered = filtered.filter(p => p.promocao>0);
+      if(selectedCategory=="Oferta")
+        filtered = filtered.filter(p => p.promocao>0);
+      else
+        filtered = filtered.filter(p => p.categoria == selectedCategory);
     }
 
     // Filter by search query

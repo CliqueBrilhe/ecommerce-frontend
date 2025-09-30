@@ -24,6 +24,9 @@ import {
 const categories = [
   { title: "Todos os Produtos", url: "/", icon: Package },
   { title: "Ofertas", url: "/categoria/ofertas", icon: Star },
+  { title: "Estetética", url: "/categoria/estetica", icon: Star },
+  { title: "Beleza", url: "/categoria/beleza", icon: Star },
+  { title: "Nutrição", url: "/categoria/nutricao", icon: Star },
 ];
 
 export function AppSidebar() {

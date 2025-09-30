@@ -22,7 +22,7 @@ export function HeroBanner() {
           </Badge>
           
           <h1 className="text-4xl md:text-5xl font-bold leading-tight">
-            Sua Casa Sempre
+            Clicou, chegou, brilhou!
             <span className="block text-secondary"> Limpa e Protegida</span>
           </h1>
           

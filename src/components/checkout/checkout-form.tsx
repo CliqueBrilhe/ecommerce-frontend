@@ -197,7 +197,7 @@ export function CheckoutForm({ items, totalPrice, onSuccess, onCancel }: Checkou
           await api.post("/email/simple", {
             to: email,
             subject: "Confirmação de pedido",
-            text: "Seu pedido foi confirmado! Consulte o status de seus pedidos em 'Meus pedidos'.",
+            text: "Olá, "+nome+"!"+"Em nome de toda a equipe Click & Brilhe, queremos agradecer por sua confiança e escolha. 💖 Cada pedido que recebemos é preparado com carinho, dedicação e um toque de cuidado especial, porque acreditamos que autocuidado é um ato de amor próprio – e você merece esse momento só seu. Seu pedido já está sendo separado e logo estará a caminho para trazer ainda mais beleza, confiança e bem-estar à sua rotina. ✨ Enquanto isso, aproveite para nos seguir no Instagram [@clickebrilhe], onde compartilhamos dicas exclusivas de cuidados, novidades e inspirações para que você brilhe todos os dias. 💌 Se precisar de qualquer coisa, nosso time de atendimento está sempre disponível para te ajudar. Obrigada por fazer parte da nossa história. 💕Com carinho, Equipe Click & Brilhe 🌸✨",
             html:"<h1>Confirmação de pedido</h1><p>Seu pedido foi confirmado! Consulte o status de seus pedidos em 'Meus pedidos'.</p>"
           });
           console.log(`E-mail enviado para ${email}`);
