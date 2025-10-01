@@ -23,7 +23,7 @@ export function HeroBanner() {
           
           <h1 className="text-4xl md:text-5xl font-bold leading-tight">
             Clicou, chegou, brilhou!
-            <span className="block text-secondary"> Limpa e Protegida</span>
+            <span className="block text-secondary"> Onde Ciência e Beleza se Encontram</span>
           </h1>
           
           <p className="text-lg text-white/90 max-w-2xl mx-auto">

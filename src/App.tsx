@@ -37,25 +37,28 @@ const App = () => (
           <Route path="/categoria/:category" element={<Index />} />
           <Route path="/pedidos_cliente" element={<Pedidos_cliente />} />
           <Route path="/consult_CPF" element={<Consult_CPF />} />
-          
-          
-            <Route path="/login" element={<Login />} />
-            <Route path="/admin" element={
+
+          <Route path="/login" element={<Login />} />
+
+          <Route
+            path="/admin"
+            element={
               <ProtectedRoute>
                 <AdminLayout />
               </ProtectedRoute>
-            }>
-              <Route index element={<Navigate to="/admin/produtos" replace />} />
-              <Route path="produtos" element={<Produtos />} />
-              <Route path="pedidos" element={<Pedidos />} />
-              <Route path="estatisticas" element={<Estatisticas />} />
-            </Route>
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-            <Route path="*" element={<NotFound />} />
-          
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+            }
+          >
+            {/* ok redirecionar apenas o índice de /admin */}
+            <Route index element={<Navigate to="/admin/produtos" replace />} />
+            <Route path="produtos" element={<Produtos />} />
+            <Route path="pedidos" element={<Pedidos />} />
+            <Route path="estatisticas" element={<Estatisticas />} />
+          </Route>
+
+          {/* único catch-all, sem Navigate para /produtos */}
           <Route path="*" element={<NotFound />} />
         </Routes>
+
       </BrowserRouter>
     </TooltipProvider>
     </AuthProvider>
