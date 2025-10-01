@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import {
   Sidebar,
@@ -11,23 +11,13 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
-import {
-  Droplets,
-  Sparkles,
-  Brush,
-  Trash2,
-  Home,
-  Star,
-  Package,
-} from "lucide-react";
-import api from "../lib/api";
-import axios from 'axios';
+import { Sparkles, Package, Star } from "lucide-react";
+import axios from "axios";
 
 type Categoria = {
   title: string;
   url: string;
-   
-   icon?: React.ComponentType<React.SVGProps<SVGSVGElement>>;
+  icon?: React.ComponentType<React.SVGProps<SVGSVGElement>>;
 };
 
 export function AppSidebar() {
@@ -35,47 +25,52 @@ export function AppSidebar() {
   const location = useLocation();
   const currentPath = location.pathname;
   const collapsed = state === "collapsed";
-  
+
   const [categories, setCategories] = useState<Categoria[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Busca categorias ao montar
   useEffect(() => {
-    const fetchCategorias = async () => {
+    async function fetchCategorias() {
+      setLoading(true);
+      setError(null);
+
+      // Começa com "Todos os Produtos"
+      const base: Categoria[] = [
+        { title: "Todos os Produtos", url: "/", icon: Package },
+      ];
+
       try {
         const { data } = await axios.get<string[]>(
           "https://ecommercebackend-production-d712.up.railway.app/products/categorias"
         );
 
-        const resultado: Categoria[] = data.map((nome) => ({
+        const lista = data.map<Categoria>((nome) => ({
           title: nome,
           url: "/categoria/" + encodeURIComponent(nome),
+          icon: Star, // troque se quiser ícones diferentes por categoria
         }));
 
-        setCategories(resultado);
-      } catch (err) {
-        console.error("Erro ao buscar categorias:", err);
+        setCategories([...base, ...lista]);
+      } catch (e) {
+        console.error("Erro ao buscar categorias:", e);
         setError("Não foi possível carregar as categorias.");
+        setCategories(base); // ao menos mantém o item "Todos os Produtos"
       } finally {
         setLoading(false);
       }
-    };
+    }
 
     fetchCategorias();
   }, []);
 
-  const isActive = (path: string) => currentPath === path;
   const getNavCls = ({ isActive }: { isActive: boolean }) =>
-    isActive 
-      ? "bg-primary/10 text-primary font-medium border-r-2 border-primary" 
+    isActive
+      ? "bg-primary/10 text-primary font-medium border-r-2 border-primary"
       : "hover:bg-muted/50 text-muted-foreground hover:text-foreground";
 
   return (
-    <Sidebar
-      className={collapsed ? "w-14" : "w-64"}
-      collapsible="icon"
-    >
+    <Sidebar className={collapsed ? "w-14" : "w-64"} collapsible="icon">
       <SidebarContent className="bg-card border-r border-border">
         <div className="p-4 border-b border-border">
           <div className="flex items-center gap-2">
@@ -85,7 +80,9 @@ export function AppSidebar() {
             {!collapsed && (
               <div>
                 <h2 className="font-bold text-lg text-primary">Click&Brilhe</h2>
-                <p className="text-xs text-muted-foreground">Produtos de beleza</p>
+                <p className="text-xs text-muted-foreground">
+                  Produtos de beleza
+                </p>
               </div>
             )}
           </div>
@@ -98,24 +95,42 @@ export function AppSidebar() {
 
           <SidebarGroupContent>
             <SidebarMenu className="px-2">
-              {categories.map((category) => (
-                <SidebarMenuItem key={category.title}>
-                  <SidebarMenuButton asChild className="h-12">
-                    <NavLink
-                      to={category.url}
-                      end
-                      className={({ isActive }) => 
-                        `flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${getNavCls({ isActive })}`
-                      }
-                    >
-                      <category.icon className="w-5 h-5 flex-shrink-0" />
-                      {!collapsed && (
-                        <span className="text-sm font-medium">{category.title}</span>
-                      )}
-                    </NavLink>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
+              {loading && (
+                <div className="px-4 py-2 text-sm text-muted-foreground">
+                  Carregando...
+                </div>
+              )}
+
+              {error && (
+                <div className="px-4 py-2 text-sm text-destructive">{error}</div>
+              )}
+
+              {!loading &&
+                categories.map((category) => {
+                  const Icon = category.icon ?? Package;
+                  return (
+                    <SidebarMenuItem key={category.title}>
+                      <SidebarMenuButton asChild className="h-12">
+                        <NavLink
+                          to={category.url}
+                          end
+                          className={({ isActive }) =>
+                            `flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${getNavCls(
+                              { isActive }
+                            )}`
+                          }
+                        >
+                          <Icon className="w-5 h-5 flex-shrink-0" />
+                          {!collapsed && (
+                            <span className="text-sm font-medium">
+                              {category.title}
+                            </span>
+                          )}
+                        </NavLink>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  );
+                })}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
