@@ -40,7 +40,7 @@ export function ProductCard({ product }: ProductCardProps) {
         <CardContent className="p-0">
           <div className="relative overflow-hidden rounded-t-lg">
             <img
-              src={`http://localhost:3000/imagens/${product.imagens[0]}`}
+              src={`https://ecommercebackend-production-d712.up.railway.app/imagens/${product.imagens[0]}`}
               alt={product.nome}
               className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105"
             />

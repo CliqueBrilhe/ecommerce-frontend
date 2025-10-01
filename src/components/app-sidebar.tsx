@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import {
   Sidebar,
@@ -20,20 +20,50 @@ import {
   Star,
   Package,
 } from "lucide-react";
+import api from "../lib/api";
+import axios from 'axios';
 
-const categories = [
-  { title: "Todos os Produtos", url: "/", icon: Package },
-  { title: "Ofertas", url: "/categoria/ofertas", icon: Star },
-  { title: "Estetética", url: "/categoria/estetica", icon: Star },
-  { title: "Beleza", url: "/categoria/beleza", icon: Star },
-  { title: "Nutrição", url: "/categoria/nutricao", icon: Star },
-];
+type Categoria = {
+  title: string;
+  url: string;
+   
+   icon?: React.ComponentType<React.SVGProps<SVGSVGElement>>;
+};
 
 export function AppSidebar() {
   const { state } = useSidebar();
   const location = useLocation();
   const currentPath = location.pathname;
   const collapsed = state === "collapsed";
+  
+  const [categories, setCategories] = useState<Categoria[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  // Busca categorias ao montar
+  useEffect(() => {
+    const fetchCategorias = async () => {
+      try {
+        const { data } = await axios.get<string[]>(
+          "https://ecommercebackend-production-d712.up.railway.app/products/categorias"
+        );
+
+        const resultado: Categoria[] = data.map((nome) => ({
+          title: nome,
+          url: "/categoria/" + encodeURIComponent(nome),
+        }));
+
+        setCategories(resultado);
+      } catch (err) {
+        console.error("Erro ao buscar categorias:", err);
+        setError("Não foi possível carregar as categorias.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCategorias();
+  }, []);
 
   const isActive = (path: string) => currentPath === path;
   const getNavCls = ({ isActive }: { isActive: boolean }) =>
