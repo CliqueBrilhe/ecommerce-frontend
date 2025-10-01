@@ -38,11 +38,12 @@ export function AppSidebar() {
       // Começa com "Todos os Produtos"
       const base: Categoria[] = [
         { title: "Todos os Produtos", url: "/", icon: Package },
+        { title: "Ofertas", url: "/categoria/ofertas", icon: Star },
       ];
 
       try {
         const { data } = await axios.get<string[]>(
-          "https://ecommercebackend-production-d712.up.railway.app/products/categorias"
+          "https://ecommercebackend-production-d712.up.railway.app/produtos/categorias"
         );
 
         const lista = data.map<Categoria>((nome) => ({
