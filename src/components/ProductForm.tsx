@@ -19,6 +19,7 @@ export interface ProductFormData {
   profundidade: number
   imagens: File[]
   descricao: string
+  categoria:string
 }
 
 interface ProductFormProps {
@@ -41,6 +42,7 @@ export function ProductForm({ onSubmit, onCancel, initialData, isEditing = false
     profundidade: initialData?.profundidade || 0,
     imagens: initialData?.imagens || [],
     descricao: initialData?.descricao || "",
+    categoria:initialData?.categoria || ""
   })
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -66,6 +68,7 @@ export function ProductForm({ onSubmit, onCancel, initialData, isEditing = false
         altura: formData.altura,
         profundidade: formData.profundidade,
         descricao: formData.descricao,
+        categoria:formData.categoria,
         imagens: uploadedImages.map((img) => img.filename),
       };
 
@@ -222,6 +225,16 @@ export function ProductForm({ onSubmit, onCancel, initialData, isEditing = false
           </div>
 
           <div className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="categoria" className="text-foreground font-medium">Categoria</Label>
+              <Input
+                id="categoria"
+                value={formData.categoria}
+                onChange={(e) => setFormData({ ...formData, categoria: String(e.target.value) })}
+                required
+                className="border-border focus:ring-primary"
+              />
+            </div>
             <Label className="text-foreground font-medium">Imagens do Produto (máximo 5)</Label>
             <div className="border-2 border-dashed border-border rounded-lg p-6 text-center">
               <input
