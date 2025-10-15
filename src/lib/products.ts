@@ -1,6 +1,6 @@
 import api from "../lib/api"
 export interface Product {
-  id: string
+  id: number
   nome: string
   codigo: string
   quantidadeEstoque: number
@@ -12,7 +12,7 @@ export interface Product {
   imagens: string[]
   descricao: string
   status: "disponivel" | "esgotado" | "descontinuado"
-  categoriaId: number
+  categoria: number | null
 }
 async function getProducts(): Promise<Product[]> {
   try {

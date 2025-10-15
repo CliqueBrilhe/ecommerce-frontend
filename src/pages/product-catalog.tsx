@@ -2,7 +2,13 @@ import { useState, useMemo } from "react";
 import { ProductCard } from "@/components/product/product-card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { products, categories, Product } from "@/lib/products";
 import { Grid, List, SlidersHorizontal } from "lucide-react";
 import { HeroBanner } from "@/components/layout/hero-banner";
@@ -12,33 +18,38 @@ interface ProductCatalogProps {
   searchQuery?: string;
 }
 
-export function ProductCatalog({ selectedCategory = "all", searchQuery = "" }: ProductCatalogProps) {
+export function ProductCatalog({
+  selectedCategory = "all",
+  searchQuery = "",
+}: ProductCatalogProps) {
   const [sortBy, setSortBy] = useState("nome");
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
-  
+
   const filteredAndSortedProducts = useMemo(() => {
     let filtered = products;
 
     // Filter by category
     if (selectedCategory !== "all") {
-      if(selectedCategory=="Oferta")
-        filtered = filtered.filter(p => p.promocao>0);
-      else
-        filtered = filtered.filter(p => p.categoria == selectedCategory);
+      if (selectedCategory === "Oferta") {
+        filtered = filtered.filter((p) => p.promocao > 0);
+      } else {
+        const categoryId = Number(selectedCategory);
+        filtered = filtered.filter((p) => p.categoria === categoryId);
+      }
     }
 
     // Filter by search query
     if (searchQuery) {
-      filtered = filtered.filter(p =>
-        p.nome.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        p.descricao.toLowerCase().includes(searchQuery.toLowerCase())
+      filtered = filtered.filter(
+        (p) =>
+          p.nome.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          p.descricao.toLowerCase().includes(searchQuery.toLowerCase())
       );
     }
 
     // Sort products
     const sorted = [...filtered].sort((a, b) => {
       switch (sortBy) {
-        
         case "nome":
         default:
           return a.nome.localeCompare(b.nome);
@@ -48,13 +59,13 @@ export function ProductCatalog({ selectedCategory = "all", searchQuery = "" }: P
     return sorted;
   }, [selectedCategory, searchQuery, sortBy]);
 
-  const currentCategory = categories.find(c => c.id === selectedCategory);
+  const currentCategory = categories.find((c) => c.id === selectedCategory);
 
   return (
     <div className="space-y-6">
       {/* Hero Banner - only show on home page */}
       {selectedCategory === "all" && !searchQuery && <HeroBanner />}
-      
+
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
@@ -128,11 +139,13 @@ export function ProductCatalog({ selectedCategory = "all", searchQuery = "" }: P
 
       {/* Products Grid */}
       {filteredAndSortedProducts.length > 0 ? (
-        <div className={
-          viewMode === "grid" 
-            ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
-            : "space-y-4"
-        }>
+        <div
+          className={
+            viewMode === "grid"
+              ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+              : "space-y-4"
+          }
+        >
           {filteredAndSortedProducts.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}
@@ -142,7 +155,9 @@ export function ProductCatalog({ selectedCategory = "all", searchQuery = "" }: P
           <div className="w-16 h-16 bg-muted rounded-full flex items-center justify-center mx-auto mb-4">
             <Grid className="w-8 h-8 text-muted-foreground" />
           </div>
-          <h3 className="text-lg font-semibold mb-2">Nenhum produto encontrado</h3>
+          <h3 className="text-lg font-semibold mb-2">
+            Nenhum produto encontrado
+          </h3>
           <p className="text-muted-foreground mb-4">
             Tente ajustar seus filtros ou termo de busca
           </p>
